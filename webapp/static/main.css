@@ -1,0 +1,10 @@
+html {
+    font-size: 14px;
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

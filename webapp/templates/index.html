@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card" style="width: 30rem;">
+  <div class="card-body">
+    <form method="POST" , action="">
+      {{ form.hidden_tag() }}
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            Qualified
+          </div>
+          <div class="col-sm">
+            Unqualified
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            {{ form.qualified }}
+          </div>
+          <div class="col-sm">
+            {{ form.unqualified }}
+          </div>
+        </div>
+      </div>
+      <button class="btn-lg btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% if result %}
+<div class="card" style="width: 30rem;">
+  <div class="card-body">
+    {{result}}
+  </div>
+</div>
+{% endif%}
+{% endblock content %}
