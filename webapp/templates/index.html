@@ -1,56 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
-  <h1 class="text-center mt-5">Wie treft Oranje in de achtste finale?</h1>
-</div>
-<div class="card" style="width: 40rem;">
-  <form method="POST" , action="">
-    {{ form.hidden_tag() }}
-    <div class="card-header">
-      <div class="row">
-        <div class="col">
-          <h4>Groepsresultaat</h4>
-        </div>
-        <div class="col">
-          {{ form.position (class="form-control select") }}
-        </div>
-      </div>
+<div class="jumbotron jumbotron-fluid text-center">
+    {% if 'Uitgeschakeld' not in opponent %}
+    <h1 class="display-4 mt-5">
+        Zoals het nu staat treft <span style="color: orange; font-weight: bold">Oranje</span>
+    </h1>
+    <h1 class="display-2 mt-2">
+        <strong>{{ opponent }}</strong>
+    </h1>
+    <h1 class="display-4 mt-2">
+        in de achtste finale!
+    </h1>
+    {% else %}
+    <h1 class="display-4 mt-5">
+        Zoals het nu is Oranje uitgeschakeld... 😭
+    </h1>
+    {% endif %}
+    <div class="container text-center mt-5">
+        <a class="btn-lg btn-warning" href="{{ url_for('main.custom') }}">
+            Probeer senario
+        </a>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-sm">
-          <h4>Beste nummers 3</h4>
-        </div>
-        <div class="col-sm">
-          <h4>Slechtste nummers 3</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm">
-          {{ form.qualified }}
-        </div>
-        <div class="col-sm">
-          {{ form.unqualified }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col text-center">
-          <button class="btn-lg btn-warning" type="submit">
-            Wie treft Oranje?
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
 </div>
-</div>
-
-{% if result %}
-<div class="card" style="width: 40rem;">
-  <div class="card-body text-center">
-    <h5>{{result|safe}}</h5>
-  </div>
-</div>
-{% endif%}
 {% endblock content %}
