@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields.simple import SubmitField
+from wtforms import SelectField
 from wtforms import widgets, SelectMultipleField
 
 
@@ -11,6 +11,7 @@ class MultiCheckboxField(SelectMultipleField):
 class LuckyLosers(FlaskForm):
     groups = list('ABCDEF')
     choices = [(g, f'Group {g}') for g in groups]
+    position = SelectField(label='State', choices=['1e', '2e', '3e', '4e'])
     qualified = MultiCheckboxField('Qualified', choices=choices)
     unqualified = MultiCheckboxField('Unqualified', choices=choices)
 
