@@ -1,28 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container text-center mt-5" style="width: 24rem;">
-  <a class="btn btn-warning btn-block" href="/">
-    Terug naar de virtuele tegenstander
-  </a>
-</div>
-
 <div class="container" style="width: 24rem;">
   <h1 class="text-center mt-5">Wie treft <span style="color: orange; font-weight: bold">Oranje</span> in de achtste
     finale?</h1>
 </div>
 
-{% if result %}
-<div class="card mb-2" style="width: 24rem;">
+{% for field, errors in form.errors.items() %}
+<div class="card bg-warning mt-3 mb-2" style="width: 24rem;">
   <div class="card-body text-center">
-    <strong>{{result|safe}}</strong>
+    <strong>{{ ', '.join(errors) }}</strong>
   </div>
+</div>
+{% endfor %}
+
+{% if result %}
+<div class="container mt-3 mb-2" style="width: 24rem;">
+  <stong>{{result|safe}}</stong>
 </div>
 {% endif%}
 
 <div class="card mb-5" style="width: 24rem;">
   <form method="POST" , action="">
-    {{ form.csrf_token }}
     {{ form.hidden_tag() }}
     <div class="card-header">
       <div class="row">
@@ -71,12 +70,10 @@
 </div>
 </div>
 
-{% for field, errors in form.errors.items() %}
-<div class="card mb-5" style="width: 24rem;">
-  <div class="card-body text-center">
-    <strong>{{ ', '.join(errors) }}</strong>
-  </div>
+<div class="container text-center mt-5 mb-5">
+  <a class="btn btn-warning" href="/">
+    Terug naar de virtuele tegenstander
+  </a>
 </div>
-{% endfor %}
 
 {% endblock content %}
