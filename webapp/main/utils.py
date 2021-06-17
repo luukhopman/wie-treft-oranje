@@ -3,12 +3,42 @@ from collections import Counter
 import pandas as pd
 from datetime import datetime
 
-groups = list('ABCDEF')
-third_places_combinations = [''.join(i) for i in combinations(groups, 4)]
-opponents_1st = ['3D', '3E', '3F', '3E', '3F', '3F', '3D', '3D',
+# All the combinations of lucky losers (4 best number threes)
+THIRD_PLACE_COMBINATIONS = [''.join(i)
+                            for i in combinations(list('ABCDEF'), 4)]
+
+# Opponents if the Netherlands ends first in Group C
+OPPONENTS_1ST = ['3D', '3E', '3F', '3E', '3F', '3F', '3D', '3D',
                  '3F', '3F', '3D', '3D', '3E', '3E', '3E']
-opponents_3rd = ['1F', '1F', '1F', 'X', 'X', 'X', '1E', '1E',
+
+# Opponents if the Netherlands ends third in Group C
+OPPONENTS_3RD = ['1F', '1F', '1F', 'X', 'X', 'X', '1E', '1E',
                  '1E', 'X', '1F', '1E', '1E', 'X', '1F']
+
+# Scrape all Wikipedia tables
+TABLES = pd.read_html(
+    'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
+)
+
+LAST_SCRAPE = datetime.now()
+
+# Group standings table mapping to Wikipedia table number
+GROUP_MAPPING = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
+
+
+def refresh_data(first=False):
+    global LAST_SCRAPE
+    global TABLES
+
+    # Scrape all Wikipedia tables
+    if ((datetime.now() - LAST_SCRAPE).seconds > 60 or first):
+        TABLES = pd.read_html(
+            'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
+        )
+        LAST_SCRAPE = datetime.now()
+
+
+refresh_data(first=True)
 
 
 def convert_to_text(opponent):
@@ -24,17 +54,17 @@ def convert_to_text(opponent):
                     f"(nu {get_country(opponent)})")
 
 
-def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
+def get_opposition(qualified, unqualified, pos=1):
     opponent_list = []
 
     if pos == 1:
-        opponents = opponents_1st
+        opponents = OPPONENTS_1ST
     elif pos == 3:
-        opponents = opponents_3rd
+        opponents = OPPONENTS_3RD
 
-    for third_places, opponent in zip(third_places_combinations, opponents):
-        if (all(i in third_places for i in QUALIFIED)
-                and not any(i in third_places for i in UNQUALIFIED)):
+    for third_places, opponent in zip(THIRD_PLACE_COMBINATIONS, opponents):
+        if (all(i in third_places for i in qualified)
+                and not any(i in third_places for i in unqualified)):
             opponent_list.append(convert_to_text(opponent))
 
     opponent_counter = dict(Counter(opponent_list))
@@ -53,52 +83,47 @@ def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
                       escape=False)
 
 
-GROUP_TABLES = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
-
-
-tables = pd.read_html(
-    'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
-)
-
-
-def get_netherlands_pos():
-    group_netherlands = tables[GROUP_TABLES['C']]
-    return group_netherlands[group_netherlands['Team'].str.contains('Nederland')].iloc[0]['Pos']
+def get_position(group, country):
+    group_table = TABLES[GROUP_MAPPING[group]]
+    return (group_table
+            .loc[group_table['Team'].str.contains(country), 'Pos']
+            .iloc[0])
 
 
 def get_country(identifier):
     pos, group = int(identifier[0]), identifier[1]
-    country = tables[GROUP_TABLES[group]].loc[pos-1, 'Team']
+    country = TABLES[GROUP_MAPPING[group]].loc[pos-1, 'Team']
     return country.split('(')[0].strip()
 
 
 def third_place_opponent(best_third_places, position):
     if position == 1:
-        opponents = opponents_1st
+        opponents = OPPONENTS_1ST
     elif position == 3:
-        opponents = opponents_3rd
+        opponents = OPPONENTS_3RD
 
-    for third_places, opponent in zip(third_places_combinations, opponents):
+    for third_places, opponent in zip(THIRD_PLACE_COMBINATIONS, opponents):
         if all(c in third_places for c in best_third_places):
             return get_country(opponent)
 
 
 def get_current_information():
-    netherlands_pos = get_netherlands_pos()
+    refresh_data()
+    position = get_position('C', 'Nederland')
 
-    best_third_places = tables[54]
-    qualified = best_third_places['Grp'].to_list()[0:4]
+    third_places = TABLES[54]
+    best_third_places = third_places['Grp'].to_list()[0:4]
 
-    if netherlands_pos == 1:
-        opponent = third_place_opponent(qualified, netherlands_pos)
-    elif netherlands_pos == 2:
+    if position == 1:
+        opponent = third_place_opponent(best_third_places, position)
+    elif position == 2:
         opponent = get_country('1A')
-    elif netherlands_pos == 3:
+    elif position == 3:
         if 'C' in best_third_places:
             opponent = 'Uitgeschakeld'
         else:
-            opponent = third_place_opponent(qualified, netherlands_pos)
+            opponent = third_place_opponent(best_third_places, position)
     else:
         opponent = 'Uitgeschakeld'
 
-    return netherlands_pos, qualified, opponent
+    return position, best_third_places, opponent

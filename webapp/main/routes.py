@@ -9,8 +9,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/', methods=['GET', 'POST'])
 def current():
-    netherlands_pos, qualified, opponent = get_current_information()
-    qualified_string = ', '.join(sorted(qualified))
+    position, best_third_places, opponent = get_current_information()
+    best_third_places = ', '.join(sorted(best_third_places))
 
     form = SenarioTester(request.form)
     if request.method == 'POST' and form.validate():
@@ -33,14 +33,14 @@ def current():
             result = 'Uitgeschakeld.'
 
         return render_template('index.html',
-                               netherlands_pos=netherlands_pos,
-                               qualified=qualified_string,
+                               position=position,
+                               best_third_places=best_third_places,
                                opponent=opponent,
                                form=form,
                                result=result)
 
     return render_template('index.html',
-                           netherlands_pos=netherlands_pos,
-                           qualified=qualified_string,
+                           position=position,
+                           best_third_places=best_third_places,
                            opponent=opponent,
                            form=form)
