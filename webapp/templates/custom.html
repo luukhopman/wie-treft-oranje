@@ -1,14 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if result %}
-<div class="card mb-5" style="width: 24rem;">
-  <div class="card-body text-center">
-    <strong>{{result|safe}}</strong>
-  </div>
-</div>
-{% endif%}
-
 <div class="container text-center mt-5" style="width: 24rem;">
   <a class="btn btn-warning btn-block" href="/">
     Terug naar de virtuele tegenstander
@@ -19,7 +11,16 @@
   <h1 class="text-center mt-5">Wie treft <span style="color: orange; font-weight: bold">Oranje</span> in de achtste
     finale?</h1>
 </div>
-<div class="card" style="width: 24rem;">
+
+{% if result %}
+<div class="card mb-2" style="width: 24rem;">
+  <div class="card-body text-center">
+    <strong>{{result|safe}}</strong>
+  </div>
+</div>
+{% endif%}
+
+<div class="card mb-5" style="width: 24rem;">
   <form method="POST" , action="">
     {{ form.csrf_token }}
     {{ form.hidden_tag() }}
