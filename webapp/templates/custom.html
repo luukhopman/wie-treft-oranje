@@ -13,6 +13,7 @@
 </div>
 <div class="card" style="width: 24rem;">
   <form method="POST" , action="">
+    {{ form.csrf_token }}
     {{ form.hidden_tag() }}
     <div class="card-header">
       <div class="row">

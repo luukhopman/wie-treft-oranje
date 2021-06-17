@@ -1,18 +1,28 @@
+import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_wtf.csrf import CSRFProtect
+from webapp.main.routes import main
+from webapp.errors.handlers import errors
 
 bootstrap = Bootstrap()
 
 
 def create_app():
     app = Flask(__name__)
+
+    # Enable bootstrap
     bootstrap.init_app(app)
-    from webapp.main.routes import main
-    from webapp.errors.handlers import errors
+
+    # Enable CSRF Protection
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+
+    # Setup blueprints
     app.register_blueprint(main)
     app.register_blueprint(errors)
 
-    import os
+    # Set secret key
     SECRET_KEY = os.urandom(32)
     app.config['SECRET_KEY'] = SECRET_KEY
     return app
