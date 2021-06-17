@@ -31,7 +31,7 @@ def refresh_data(first=False):
     global TABLES
 
     # Scrape all Wikipedia tables
-    if ((datetime.now() - LAST_SCRAPE).seconds > 60 or first):
+    if (((datetime.now() - LAST_SCRAPE).seconds > 60) or first):
         TABLES = pd.read_html(
             'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
         )
