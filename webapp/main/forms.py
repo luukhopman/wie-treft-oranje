@@ -28,7 +28,7 @@ class LuckyLosers(FlaskForm):
 
         if len(self.unqualified.data) > 2:
             self.qualified.errors.append(
-                'Selecteer maximaal 2 beste nummers 3')
+                'Selecteer maximaal 2 slechtse nummers 3')
             return False
 
         if len(list(set(self.qualified.data) & set(self.unqualified.data))):

@@ -6,8 +6,8 @@ groups = list('ABCDEF')
 third_places_combinations = [''.join(i) for i in combinations(groups, 4)]
 opponents_1st = ['3D', '3E', '3F', '3E', '3F', '3F', '3D', '3D',
                  '3F', '3F', '3D', '3D', '3E', '3E', '3E']
-opponents_3rd = ['1F', '1F', '1F', 'X', 'X', 'X', 'X', 'X',
-                 'X', 'X', '1F', '1E', '1E', 'X', '1F']
+opponents_3rd = ['1F', '1F', '1F', 'X', 'X', 'X', '1E', '1E',
+                 '1E', 'X', '1F', '1E', '1E', 'X', '1F']
 
 
 def convert_to_text(opponent):
@@ -38,6 +38,7 @@ def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
 
     df = pd.DataFrame.from_dict(data=opponent_counter, orient='index')
     df.columns = ['Kans']
+    df = df.sort_values('Kans', ascending=False)
     return df.to_html(formatters={'Kans': '{:,.2%}'.format},
                       classes=["table table-hover text-center"],
                       table_id="standings",
@@ -47,9 +48,8 @@ def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
 
 
 tables = pd.read_html(
-    'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020')
-best_third_places = tables[54]
-qualified = best_third_places['Grp'].to_list()[0:4]
+    'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
+)
 
 groups_tables = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
 
@@ -79,6 +79,9 @@ def third_place_opponent(best_third_places, position):
 def get_current_opponent():
     netherlands_pos = get_netherlands_pos()
 
+    best_third_places = tables[54]
+    qualified = best_third_places['Grp'].to_list()[0:4]
+
     if netherlands_pos == 1:
         opponent = third_place_opponent(qualified, netherlands_pos)
     elif netherlands_pos == 2:
@@ -91,4 +94,4 @@ def get_current_opponent():
     else:
         opponent = 'Xgeschakeld'
 
-    return opponent
+    return qualified, opponent

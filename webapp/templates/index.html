@@ -17,8 +17,11 @@
         Oranje is virtueel uitgeschakeld... 😭
     </h1>
     {% endif %}
+    <p class="text-secondary font-italic mt-4">
+        Op basis van de laatste update met de beste nummers 3 uit groepen {{ qualified }}.
+    </p>
     <div class="container text-center mt-5">
-        <a class="btn-lg btn-warning" href="{{ url_for('main.custom') }}">
+        <a class="btn-lg btn-warning" href="{{ url_for('main.senario') }}">
             Probeer senario
         </a>
     </div>
