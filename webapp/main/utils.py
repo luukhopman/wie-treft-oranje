@@ -1,6 +1,7 @@
 from itertools import combinations
 from collections import Counter
 import pandas as pd
+from datetime import datetime
 
 groups = list('ABCDEF')
 third_places_combinations = [''.join(i) for i in combinations(groups, 4)]
@@ -52,21 +53,22 @@ def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
                       escape=False)
 
 
+GROUP_TABLES = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
+
+
 tables = pd.read_html(
     'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
 )
 
-groups_tables = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
-
 
 def get_netherlands_pos():
-    group_netherlands = tables[groups_tables['C']]
+    group_netherlands = tables[GROUP_TABLES['C']]
     return group_netherlands[group_netherlands['Team'].str.contains('Nederland')].iloc[0]['Pos']
 
 
 def get_country(identifier):
     pos, group = int(identifier[0]), identifier[1]
-    country = tables[groups_tables[group]].loc[pos-1, 'Team']
+    country = tables[GROUP_TABLES[group]].loc[pos-1, 'Team']
     return country.split('(')[0].strip()
 
 
