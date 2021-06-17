@@ -8,12 +8,13 @@ class MultiCheckboxField(SelectMultipleField):
     option_widget = widgets.CheckboxInput()
 
 
-class LuckyLosers(FlaskForm):
-    groups = list('ABCDEF')
-    choices = [(g, f'Group {g}') for g in groups]
-    position = SelectField(label='State', choices=['1e', '2e', '3e', '4e'])
-    qualified = MultiCheckboxField('Qualified', choices=choices)
-    unqualified = MultiCheckboxField('Unqualified', choices=choices)
+class SenarioTester(FlaskForm):
+    groups = [(g, f'Group {g}') for g in list('ABCDEF')]
+    positions = [f"{i}e plek" for i in range(1, 5)]
+
+    position = SelectField(label='Position', choices=positions)
+    qualified = MultiCheckboxField('Qualified', choices=groups)
+    unqualified = MultiCheckboxField('Unqualified', choices=groups)
 
     def validate(self):
         rv = FlaskForm.validate(self)

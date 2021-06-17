@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid text-center">
+<div class="jumbotron jumbotron-fluid text-center mt-5">
     {% if 'Uitgeschakeld' not in opponent %}
     <h1 class="display-4 mt-5">
-        <span style="color: orange; font-weight: bold">Oranje</span> treft virtueel
+        <span style="color: orange; font-weight: bold">Oranje</span>
+        treft virtueel
     </h1>
     <h1 class="display-2 mt-2">
         <strong>{{ opponent }}</strong>
@@ -17,13 +18,71 @@
         Oranje is virtueel uitgeschakeld... 😭
     </h1>
     {% endif %}
-    <p class="text-secondary font-italic mt-4">
-        Op basis van de laatste update met de beste nummers 3 uit groepen {{ qualified }}.
-    </p>
+    <a class="font-italic" data-toggle="collapse" href="#info" role="button" aria-expanded="false" aria-controls="info">
+        Informatie
+    </a>
+    <div class="collapse text-muted text-center" id="info">
+        Op basis van de laatst beschikbare update:
+        <br>
+        • Nederland staat {{ netherlands_pos }}e in groep C.
+        <br>
+        • Beste nummers 3 komen uit groep {{ qualified }}.
+    </div>
+
     <div class="container text-center mt-5">
-        <a class="btn-lg btn-warning" href="{{ url_for('main.senario') }}">
-            Probeer senario
+        <a class="btn-lg btn-warning font-weight-bold text-dark" href="#senario">
+            Probeer ander senario
         </a>
     </div>
+</div>
+
+
+<div class="container" style="width: 24rem;">
+    <h1 class="text-center mt-5">Wie treft <span style="color: orange; font-weight: bold">Oranje</span> in de
+        achtste
+        finale?</h1>
+</div>
+{% if result %}
+<div class="container mt-3 mb-2 text-center" style="width: 24rem;">
+    <h5>{{result|safe}}</h5>
+</div>
+{% endif%}
+
+{% for field, errors in form.errors.items() %}
+<div class="card bg-warning mt-3 mb-2" style="width: 24rem;">
+    <div class="card-body text-center">
+        <strong>{{ ', '.join(errors) }}</strong>
+    </div>
+</div>
+{% endfor %}
+
+<div id="senario"></div>
+<div class="card mb-5" style="width: 24rem;">
+    <form method="POST" action="">
+        <div class="card-header text-center align-items-center">
+            <h3>Senario Tester</h3>
+        </div>
+        <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+                <h5>Groepsresultaat</h5>
+                {{ form.position (class="form-control select") }}
+            </li>
+            <li class="list-group-item">
+                <h5>Beste nummers 3</h5>
+                <p class="text-muted">Selecteer 0 tot 4 groepen</p>
+                {{ form.qualified }}
+            </li>
+            <li class="list-group-item">
+                <h5>Slechtste nummers 3</h5>
+                <p class="text-muted">Selecteer 0 tot 2 groepen</p>
+                {{ form.unqualified }}
+            </li>
+            <li class="list-group-item">
+                <button class="btn-lg btn-warning btn-block font-weight-bold" type="submit" href="#senario">
+                    Wie treft Oranje?
+                </button>
+            </li>
+        </ul>
+    </form>
 </div>
 {% endblock content %}

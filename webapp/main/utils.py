@@ -15,7 +15,12 @@ def convert_to_text(opponent):
         return "Uitgeschakeld"
     else:
         position, group = opponent[0], opponent[1]
-        return f"{position}e van Group {group}"
+        if int(position) == 1:
+            return (f"Winnaar van Group {group} "
+                    f"(nu {get_country(opponent)})")
+        else:
+            return (f"{position}e van Group {group} "
+                    f"(nu {get_country(opponent)})")
 
 
 def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
@@ -39,7 +44,7 @@ def get_opposition(QUALIFIED, UNQUALIFIED, pos=1):
     df = pd.DataFrame.from_dict(data=opponent_counter, orient='index')
     df.columns = ['Kans']
     df = df.sort_values('Kans', ascending=False)
-    return df.to_html(formatters={'Kans': '{:,.2%}'.format},
+    return df.to_html(formatters={'Kans': '{:,.1%}'.format},
                       classes=["table table-hover text-center"],
                       table_id="standings",
                       border=0,
@@ -76,7 +81,7 @@ def third_place_opponent(best_third_places, position):
             return get_country(opponent)
 
 
-def get_current_opponent():
+def get_current_information():
     netherlands_pos = get_netherlands_pos()
 
     best_third_places = tables[54]
@@ -88,10 +93,10 @@ def get_current_opponent():
         opponent = get_country('1A')
     elif netherlands_pos == 3:
         if 'C' in best_third_places:
-            opponent = 'Xtgeschakeld'
+            opponent = 'Uitgeschakeld'
         else:
             opponent = third_place_opponent(qualified, netherlands_pos)
     else:
-        opponent = 'Xgeschakeld'
+        opponent = 'Uitgeschakeld'
 
-    return qualified, opponent
+    return netherlands_pos, qualified, opponent
