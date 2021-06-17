@@ -25,20 +25,23 @@ LAST_SCRAPE = datetime.now()
 # Group standings table mapping to Wikipedia table number
 GROUP_MAPPING = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
 
+TABLES = pd.read_html(
+    'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
+)
 
-def refresh_data(first=False):
-    global LAST_SCRAPE
-    global TABLES
+# def refresh_data(first=False):
+#     global LAST_SCRAPE
+#     global TABLES
 
-    # Scrape all Wikipedia tables
-    if (((datetime.now() - LAST_SCRAPE).seconds > 60) or first):
-        TABLES = pd.read_html(
-            'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
-        )
-        LAST_SCRAPE = datetime.now()
+#     # Scrape all Wikipedia tables
+#     if (((datetime.now() - LAST_SCRAPE).seconds > 60) or first):
+#         TABLES = pd.read_html(
+#             'https://nl.wikipedia.org/wiki/Europees_kampioenschap_voetbal_2020'
+#         )
+#         LAST_SCRAPE = datetime.now()
 
 
-refresh_data(first=True)
+# refresh_data(first=True)
 
 
 def convert_to_text(opponent):
@@ -108,7 +111,7 @@ def third_place_opponent(best_third_places, position):
 
 
 def get_current_information():
-    refresh_data()
+    # refresh_data()
     position = get_position('C', 'Nederland')
 
     third_places = TABLES[54]
