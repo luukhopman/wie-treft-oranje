@@ -17,20 +17,23 @@ class LuckyLosers(FlaskForm):
 
     def validate(self):
         rv = FlaskForm.validate(self)
-        
-        if not rv:                                                              
-            return False 
-        
+
+        if not rv:
+            return False
+
         if len(self.qualified.data) > 4:
-            self.qualified.errors.append('Please select no more than 4 groups')  
+            self.qualified.errors.append(
+                'Selecteer maximaal 4 beste nummers 3')
             return False
-        
+
         if len(self.unqualified.data) > 2:
-            self.qualified.errors.append('Please select no more than 2 groups')  
+            self.qualified.errors.append(
+                'Selecteer maximaal 2 beste nummers 3')
             return False
-        
+
         if len(list(set(self.qualified.data) & set(self.unqualified.data))):
-            self.qualified.errors.append('Error')  
+            self.qualified.errors.append(
+                'Een groep kan niet zowel de beste als slechte nummers drie bevatten.')
             return False
 
         return True

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container text-center mt-5" style="width: 24rem;">
+  <a class="btn btn-warning btn-block" href="/">
+    Terug naar de virtuele tegenstander
+  </a>
+</div>
+
 <div class="container" style="width: 24rem;">
   <h1 class="text-center mt-5">Wie treft <span style="color: orange; font-weight: bold">Oranje</span> in de achtste
     finale?</h1>
@@ -18,23 +24,31 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body text-center">
       <div class="row">
         <div class="col-sm">
-          <h6>Beste nummers 3</h6>
-        </div>
-        <div class="col-sm">
-          <h6>Slechtste nummers 3</h6>
+          <h5>Beste nummers 3</h5>
+          Selecteer 0 tot 4 groepen
         </div>
       </div>
       <div class="row">
-        <div class="col-sm">
+        <div class="col-sm mt-3">
           {{ form.qualified }}
         </div>
+      </div>
+      <hr>
+      <div class="row">
         <div class="col-sm">
+          <h5>Slechtse nummers 3</h5>
+          Selecteer 0 tot 2 groepen
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm mt-3">
           {{ form.unqualified }}
         </div>
       </div>
+      <hr>
       <div class="row">
         <div class="col text-center">
           <button class="btn-lg btn-warning" type="submit">
@@ -47,16 +61,19 @@
 </div>
 </div>
 
+{% for field, errors in form.errors.items() %}
+<div class="card mb-5" style="width: 24rem;">
+  <div class="card-body text-center">
+    <strong>{{ ', '.join(errors) }}</strong>
+  </div>
+</div>
+{% endfor %}
+
 {% if result %}
-<div class="card" style="width: 24rem;">
+<div class="card mb-5" style="width: 24rem;">
   <div class="card-body text-center">
     <strong>{{result|safe}}</strong>
   </div>
 </div>
 {% endif%}
-<div class="container text-center mt-5">
-  <a class="btn-lg btn-warning" href="/">
-    Terug naar de virtuele tegenstander
-  </a>
-</div>
 {% endblock content %}
