@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_wtf import CSRFProtect
 from webapp.main.routes import main
 from webapp.errors.handlers import errors
 
@@ -15,9 +14,8 @@ def create_app():
     # Enable bootstrap
     bootstrap.init_app(app)
 
-    # Setup CSRF protection
-    csrf = CSRFProtect()
-    csrf.init_app(app)
+    # Disable CSRF Protection
+    app.config['WTF_CSRF_ENABLED'] = False
 
     # Setup blueprints
     app.register_blueprint(main)
