@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if result %}
+<div class="card mb-5" style="width: 24rem;">
+  <div class="card-body text-center">
+    <strong>{{result|safe}}</strong>
+  </div>
+</div>
+{% endif%}
+
 <div class="container text-center mt-5" style="width: 24rem;">
   <a class="btn btn-warning btn-block" href="/">
     Terug naar de virtuele tegenstander
@@ -70,11 +78,4 @@
 </div>
 {% endfor %}
 
-{% if result %}
-<div class="card mb-5" style="width: 24rem;">
-  <div class="card-body text-center">
-    <strong>{{result|safe}}</strong>
-  </div>
-</div>
-{% endif%}
 {% endblock content %}
