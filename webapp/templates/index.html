@@ -44,8 +44,16 @@
 {% if result %}
 <div class="container mt-3 mb-2 text-center" style="width: 24rem;">
     <h5>{{result|safe}}</h5>
+    {% if 'Kans' in result %}
+    <a class="font-italic" data-toggle="collapse" href="#senario-info" role="button" aria-expanded="false" aria-controls="info">
+        <small>Informatie</small>
+    </a>
+    <div class="collapse text-muted text-center" id="senario-info">
+        <small>Kans is gebaseerd op aantal mogelijke combinaties en houdt geen rekening met andere factoren.</small>
+    </div>
+    {% endif %}
 </div>
-{% endif%}
+{% endif %}
 
 {% for field, errors in form.errors.items() %}
 <div class="card bg-warning mt-3 mb-2" style="width: 24rem;">
