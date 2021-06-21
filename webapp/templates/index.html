@@ -15,7 +15,7 @@
     </h1>
     {% else %}
     <h1 class="display-4 mt-5">
-        Oranje is virtueel uitgeschakeld... 😭
+        Oranje is virtueel uitgeschakeld...
     </h1>
     {% endif %}
     <a class="font-italic" data-toggle="collapse" href="#info" role="button" aria-expanded="false" aria-controls="info">
@@ -28,7 +28,7 @@
         <br>
         • Beste nummers 3 komen uit groep {{ best_third_places }}.
     </div>
-
+    <hr class="mt-5">
     <div class="container text-center mt-5">
         <a class="btn-lg btn-warning font-weight-bold text-dark" href="#senario">
             Probeer ander senario
@@ -44,19 +44,17 @@
 {% if result %}
 <div class="container mt-3 mb-2 text-center" style="width: 24rem;">
     <h5>{{result|safe}}</h5>
-    {% if 'Kans' in result %}
     <a class="font-italic" data-toggle="collapse" href="#senario-info" role="button" aria-expanded="false" aria-controls="info">
         <small>Informatie</small>
     </a>
     <div class="collapse text-muted text-center" id="senario-info">
         <small>Kans is gebaseerd op aantal mogelijke combinaties en houdt geen rekening met andere factoren.</small>
     </div>
-    {% endif %}
 </div>
 {% endif %}
 
 {% for field, errors in form.errors.items() %}
-<div class="card bg-warning mt-3 mb-2" style="width: 24rem;">
+<div class="card border-warning mt-3 mb-2" style="width: 24rem;">
     <div class="card-body text-center">
         <strong>{{ ', '.join(errors) }}</strong>
     </div>

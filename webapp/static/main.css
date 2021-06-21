@@ -18,22 +18,18 @@ table, th, td {
     font-size: 13px;
 }
 
-/* unvisited link */
 a:link {
-    color: orange;
-  }
-  
-  /* visited link */
-  a:visited {
-    color: orange;
-  }
-  
-  /* mouse over link */
-  a:hover {
-    color: orange;
-  }
-  
-  /* selected link */
-  a:active {
-    color: orange;
-  }
+  color: orange;
+}
+
+a:visited {
+  color: orange;
+}
+
+a:hover {
+  color: orange;
+}
+
+a:active {
+  color: orange;
+}
