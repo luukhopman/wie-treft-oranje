@@ -100,10 +100,10 @@ def convert_to_text(opponent):
     else:
         position, group = opponent[0], opponent[1]
         if int(position) == 1:
-            return (f"Winnaar van Group {group} "
+            return (f"Winnaar van Groep {group} "
                     f"(nu {get_country(opponent)})")
         else:
-            return (f"{position}e van Group {group} "
+            return (f"{position}e van Groep {group} "
                     f"(nu {get_country(opponent)})")
 
 
