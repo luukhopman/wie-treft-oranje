@@ -9,7 +9,7 @@ class MultiCheckboxField(SelectMultipleField):
 
 
 class SenarioTester(FlaskForm):
-    groups = [(g, f'Group {g}') for g in list('ABCDEF')]
+    groups = [(g, f'Groep {g}') for g in list('ABCDEF')]
     positions = [f"{i}e plek" for i in range(1, 5)]
 
     position = SelectField(label='Position', choices=positions)
