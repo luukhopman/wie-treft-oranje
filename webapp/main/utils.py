@@ -51,6 +51,7 @@ def get_country(identifier):
     pos, group = int(identifier[0]), identifier[1]
     country = TABLES[GROUP_MAPPING[group]].loc[pos-1, 'Team']
     return (country
+            .split('TH')[0]
             .split('Titelhouder')[0]
             .split('(')[0]
             .strip())
