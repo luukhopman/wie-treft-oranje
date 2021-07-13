@@ -16,7 +16,7 @@ OPPONENTS_3RD = ['1F', '1F', '1F', 'X', 'X', 'X', '1E', '1E',
                  '1E', 'X', '1F', '1E', '1E', 'X', '1F']
 
 # Group standings table mapping to Wikipedia table number
-GROUP_MAPPING = {'A': 12, 'B': 19, 'C': 26, 'D': 33, 'E': 40, 'F': 47}
+GROUP_MAPPING = {'A': 11, 'B': 18, 'C': 25, 'D': 32, 'E': 39, 'F': 46}
 
 
 def refresh_data(first=False):
@@ -72,7 +72,7 @@ def get_current_information():
     refresh_data()
     position = get_position('C', 'Nederland')
 
-    third_places = TABLES[54]
+    third_places = TABLES[53]
     best_third_places = third_places['Grp'].to_list()[0:4]
 
     if position == 1:
